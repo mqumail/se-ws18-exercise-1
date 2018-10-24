@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Image {
     public byte[] data;
@@ -64,6 +67,35 @@ public class Image {
         }
     }
 
-    public void write(String filename){}
+  public void write(String filename){
+
+      // Reference: https://www.journaldev.com/878/java-write-to-file
+      File file = new File(filename);
+      FileWriter fr = null;
+
+      try
+      {
+          fr = new FileWriter(file);
+          // Write data instead
+          String ppmHeader = "P6 " + width + " " + height + " " + 255 + "\n";
+          String ppmData = "";
+          for (int i = 0; i < data.length; i++)
+          {
+              ppmData = ppmData + data[i] + "\n";
+          }
+          fr.write(ppmHeader);
+          fr.write(ppmData);
+      } catch (IOException e) {
+          e.printStackTrace();
+      } finally {
+          try
+          {
+              fr.close();
+          } catch (IOException e)
+          {
+              e.printStackTrace();
+          }
+      }
+  }
 
 }

@@ -31,6 +31,9 @@ public class TestSuite {
   @Test public static void ImageTest4() throws java.io.FileNotFoundException,java.io.IOException {
     String filename = "test.ppm";
     Image i = new Image(100,100);
+
+    i.set(99,99, 0x123456);
+
     i.write(filename);
     java.io.File f = new java.io.File(filename);
     boolean exists = f.exists() && f.isFile();
