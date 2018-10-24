@@ -40,24 +40,28 @@ public class Image {
         this.height = newHeight;
     }
 
-    //Set method to insert values into the byte array
-    //Make exceptions when the coordinates are too low to calculate regularly
+    //Set method to insert values into the byte array and exceptions when the coordinates are too low or too high to calculate regularly
     public void set(int x, int y, int val){
         int index;
-        if(x == 0 && y == 0){
-          index = 0;
-        } else if(y == 0 && x != 0){
-          index = x * 3;
-        } else if(x == 0 && y != 0){
-          index = x * (this.width * 3);
-        } else{
-          index = x * y;
-        }
+        if(x < width || y < height) {
 
-        //Set the values of the array by the given int value(val) shifting 8 bits from val value
-        data[index] = (byte)(val >> 16);
-        data[index+1] = (byte)(val >> 8);
-        data[index+2] = (byte)(val >> 0);
+            if (x == 0 && y == 0) {
+                index = 0;
+            } else if (y == 0 && x != 0) {
+                index = x * 3;
+            } else if (x == 0 && y != 0) {
+                index = y * (width * 3);
+            } else {
+                index = (3 * width * height) - ((width - x) * 3);
+            }
+
+            //Set the values of the array by the given int value(val) shifting 8 bits from val value
+            //https://stackoverflow.com/questions/2183240/java-integer-to-byte-array used the >> operator to shift the values properly
+            data[index] = (byte) (val >> 16);
+            data[index + 1] = (byte) (val >> 8);
+            data[index + 2] = (byte) (val >> 0);
+
+        }
     }
 
     public void write(String filename){}
