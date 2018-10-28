@@ -76,21 +76,25 @@ public class Image {
       try
       {
           fr = new FileWriter(file);
-          // Write data instead
           String ppmHeader = "P6 " + width + " " + height + " " + 255 + "\n";
-          String ppmData = "";
-          for (int i = 0; i < data.length; i++)
+
+          StringBuilder ppmData = new StringBuilder();
+          for (byte aData : data)
           {
-              ppmData = ppmData + data[i] + "\n";
+              ppmData.append(aData).append("\n");
           }
+
           fr.write(ppmHeader);
-          fr.write(ppmData);
+          fr.write(ppmData.toString());
       } catch (IOException e) {
           e.printStackTrace();
       } finally {
           try
           {
-              fr.close();
+              if (fr != null)
+              {
+                  fr.close();
+              }
           } catch (IOException e)
           {
               e.printStackTrace();
